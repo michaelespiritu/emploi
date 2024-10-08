@@ -1,12 +1,11 @@
-import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
+import Form from './Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import JobDetails from './JobDetails';
-import { Link } from '@inertiajs/react';
 
-export default function Show({ auth, job }) {
+export default function Edit({ auth, job, categories }) {
+
   return (
     <AuthenticatedLayout
       user={ auth.user }
@@ -24,7 +23,13 @@ export default function Show({ auth, job }) {
 
       <div className="py-12">
         <div className="max-w-5xl mx-auto sm:px-6 lg:px-8">
-          <JobDetails job={ job } />
+          <Form
+            buttonText={ 'Update' }
+            categories={ categories.data }
+            values={ job }
+            route={ route('job.update', { id: job.id }) }
+            type={ 'patch' }
+          />
         </div>
       </div>
     </AuthenticatedLayout >

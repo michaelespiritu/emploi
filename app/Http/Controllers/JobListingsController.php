@@ -8,6 +8,7 @@ use Inertia\Response;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
 use App\Models\JobCategories;
+use Illuminate\Support\Facades\Log;
 use App\Http\Resources\JobListingResource;
 use App\Http\Resources\JobCategoryResource;
 
@@ -68,17 +69,22 @@ class JobListingsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(JobListing $jobListing)
     {
-        //
+        return Inertia::render('Company/Jobs/Edit', [
+            'job' => JobListingResource::make($jobListing)->toArray(request()),
+            'status' => session('status'),
+            'categories' => JobCategoryResource::collection(JobCategories::all())
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, JobListing $jobListing)
     {
-        //
+        $jobListing->update($request->all());
+        return redirect()->route('job.show', ['jobListing' => $jobListing])->with('status', 'Job has been Created');
     }
 
     /**

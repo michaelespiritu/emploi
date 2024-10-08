@@ -35,7 +35,7 @@ class JobListing extends Model
     {
         return $this->owner ? [
             'name' => $this->owner->name,
-            'address' => $this->owner->address, // or any other property
+            'address' => $this->owner->address,
         ] : null;
     }
 }

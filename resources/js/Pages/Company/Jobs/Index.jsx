@@ -8,6 +8,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 
 export default function Index({ auth, status, all_jobs, categories }) {
   const [showForm, setShowForm] = useState((all_jobs && all_jobs.length > 0) ? true : false)
+
   return (
     <AuthenticatedLayout
       user={ auth.user }
@@ -27,7 +28,11 @@ export default function Index({ auth, status, all_jobs, categories }) {
                 </div>
               </Link>
             ))
-            : <Form categories={ categories.data } />
+            : <Form
+              categories={ categories.data }
+              route={ route('job.create') }
+              type={ 'post' }
+            />
           }
         </div>
       </div>

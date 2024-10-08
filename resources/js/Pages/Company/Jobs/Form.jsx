@@ -6,32 +6,39 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import Select from '@/Components/Select';
 import Textarea from '@/Components/Textarea';
 import TextInput from '@/Components/TextInput';
+import Wyswyg from '@/Components/Wyswyg';
 import { useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function Form({ buttonText = 'Create', categories }) {
+export default function Form({ buttonText = 'Create', categories, values, route, type }) {
   const [hasAShortDescription, setHasAShortDescription] = useState(false)
-
-  const { data, setData, post, processing, errors } = useForm({
-    title: '',
-    description: '',
-    short_description: '',
-    category_id: '',
-    location: '',
-    budget: '',
-    hours_per_week: '',
-    type: '',
-    contract_type: '',
-    contract_length: '',
-    status: '',
+  // const { post, patch } = useForm();
+  const { data, setData, post, patch, processing, errors } = useForm({
+    title: values ? values.title : '',
+    description: values ? values.description : '',
+    short_description: values ? values.short_description : '',
+    category_id: values ? values.category_id : '',
+    location: values ? values.location : '',
+    budget: values ? values.budget : '',
+    hours_per_week: values ? values.hours_per_week : '',
+    type: values ? values.type : '',
+    contract_type: values ? values.contract_type : '',
+    status: values ? values.status : '',
   });
 
   const submit = (e) => {
     e.preventDefault();
 
-    post(route('job.create'));
+    if (type == 'patch') {
+      patch(route);
+    }
+    if (type == 'post') {
+      post(route);
+    }
   };
-
+  const handleChange = (field, value) => {
+    setData(prev => ({ ...prev, [field]: value }));
+  };
   return (
     <form onSubmit={ submit }>
       <div>
@@ -53,17 +60,15 @@ export default function Form({ buttonText = 'Create', categories }) {
 
       <div className="mt-4">
         <InputLabel htmlFor="description" value="Description" />
-
-        <Textarea
+        <Wyswyg
           id="description"
           name="description"
           value={ data.description }
           className="mt-1 block w-full"
           autoComplete="title"
-          onChange={ (e) => setData('description', e.target.value) }
+          onChange={ (newValue) => handleChange('description', newValue) }
           required
         />
-
         <InputError message={ errors.description } className="mt-2" />
       </div>
 
@@ -214,27 +219,6 @@ export default function Form({ buttonText = 'Create', categories }) {
 
         <InputError message={ errors.contract_type } className="mt-2" />
       </div>
-
-      { data.contract_type === 'Permanent' ? (
-        <input type="hidden" value="Permanent" />
-      ) : (
-        <div className="mt-4">
-          <InputLabel htmlFor="contract_length" value="Contract Length" />
-
-          <TextInput
-            id="contract_length"
-            name="contract_length"
-            value={ data.contract_length }
-            className="mt-1 block w-full"
-            autoComplete="title"
-            onChange={ (e) => setData('contract_length', e.target.value) }
-            required
-          />
-
-          <InputError message={ errors.contract_length } className="mt-2" />
-        </div>
-      ) }
-
 
       <div className="flex items-center justify-end mt-4">
         <PrimaryButton className="ms-4" disabled={ processing }>

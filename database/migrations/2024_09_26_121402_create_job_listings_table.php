@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('hours_per_week');
             $table->string('type'); //Full Time or Part Time
             $table->string('contract_type'); //Full Time or Part Time
-            $table->string('contract_length')->nullable(); //Full Time or Part Time
             $table->string('status')->default('reviewing');
             $table->dateTime('expires_at');
             $table->timestamps();

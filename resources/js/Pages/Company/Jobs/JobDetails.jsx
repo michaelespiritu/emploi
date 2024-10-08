@@ -26,7 +26,15 @@ export default function JobDetails({ job, trim = false }) {
           <p className="text-gray-900 pb-3"><FontAwesomeIcon icon={ faClock } /> { job.type }</p>
         </div>
       </div>
-      <p className="text-gray-900">{ (!trim) ? job.description : `${getWords(job.description, 25)}...` }</p>
+
+      <p className="text-gray-900">
+        { !trim ? (
+          <span dangerouslySetInnerHTML={ { __html: job.description } } />
+        ) : (
+          <span dangerouslySetInnerHTML={ { __html: getWords(job.description, 25) } } />
+        ) }
+      </p>
+
     </div>
   )
 }

@@ -45,6 +45,8 @@ Route::middleware('auth')->prefix('company/jobs')->group(function () {
     Route::get('/', [JobListingsController::class, 'index'])->name('job.index');
     Route::post('/create', [JobListingsController::class, 'create'])->name('job.create');
     Route::get('/{jobListing}', [JobListingsController::class, 'show'])->name('job.show');
+    Route::get('/edit/{jobListing}', [JobListingsController::class, 'edit'])->name('job.edit');
+    Route::patch('/edit/{jobListing}', [JobListingsController::class, 'update'])->name('job.update');
     Route::get('/categories', [JobListingsController::class, 'categories'])->name('job.categories');
 });
 
