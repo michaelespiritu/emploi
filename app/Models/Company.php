@@ -31,4 +31,9 @@ class Company extends Model
     {
         return $this->HasMany(JobListing::class);
     }
+
+    public function employees(): HasMany
+    {
+        return $this->HasMany(User::class);
+    }
 }

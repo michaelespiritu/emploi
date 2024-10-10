@@ -84,7 +84,7 @@ export default function Form({ buttonText = 'Create', categories, values, route,
           /> Do you have a short Description
         </InputLabel>
 
-        <InputError message={ errors.description } className="mt-2" />
+        <InputError message={ errors.hasAShortDescription } className="mt-2" />
       </div>
 
       { (hasAShortDescription) &&

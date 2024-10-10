@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom styles for the ReactQuill editor */
+.ql-container {
+  background-color: white; /* Set background to white */
+  min-height: 150px; /* Set your desired minimum height */
+}
+
+.ql-editor {
+  min-height: 150px; /* Ensures the editor area has a minimum height */
+}
+
+.joblisting-body ol li[data-list="ordered"] {
+  list-style-type: auto;
+  margin-left: 15px;
+}
+
+.joblisting-body ol li[data-list="bullet"] {
+  list-style-type: disc;
+  margin-left: 15px
+}
+
+.joblisting-body li {
+  margin-bottom: 10px
+}

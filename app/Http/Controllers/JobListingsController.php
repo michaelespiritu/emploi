@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JobListingRequest;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -29,7 +30,7 @@ class JobListingsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(JobListingRequest $request)
     {
         $request['status'] = 'reviewing';
         $request['expires_at'] = Carbon::now()->addDays(30);
@@ -81,7 +82,7 @@ class JobListingsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, JobListing $jobListing)
+    public function update(JobListingRequest $request, JobListing $jobListing)
     {
         $jobListing->update($request->all());
         return redirect()->route('job.show', ['jobListing' => $jobListing])->with('status', 'Job has been Created');

@@ -27,13 +27,13 @@ export default function JobDetails({ job, trim = false }) {
         </div>
       </div>
 
-      <p className="text-gray-900">
+      <div className="text-gray-900 joblisting-body">
         { !trim ? (
           <span dangerouslySetInnerHTML={ { __html: job.description } } />
         ) : (
           <span dangerouslySetInnerHTML={ { __html: getWords(job.description, 25) } } />
         ) }
-      </p>
+      </div>
 
     </div>
   )
