@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\JobListingRequest;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
 use App\Models\JobCategories;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\JobListingRequest;
 use App\Http\Resources\JobListingResource;
 use App\Http\Resources\JobCategoryResource;
 
@@ -32,11 +33,27 @@ class JobListingsController extends Controller
      */
     public function create(JobListingRequest $request)
     {
-        $request['status'] = 'reviewing';
-        $request['expires_at'] = Carbon::now()->addDays(30);
-        $job = auth()->user()->userCompany->jobListings()->create($request->all());
+        $userCompany = auth()->user()->userCompany;
+        $job = $this->createJobListing($request, $userCompany);
+        $this->decrementToken($userCompany);
 
         return redirect()->route('job.show', ['jobListing' => $job])->with('status', 'Job has been Created');
+    }
+
+    private function createJobListing(JobListingRequest $request, $userCompany)
+    {
+        $request['status'] = 'reviewing';
+        $request['expires_at'] = Carbon::now()->addDays(30);
+
+        return $userCompany->jobListings()->create($request->all());
+    }
+
+    private function decrementToken($userCompany)
+    {
+        if ($userCompany) {
+            $newToken = $userCompany->token - 1;
+            $userCompany->update(['token' => $newToken]);
+        }
     }
 
     /**

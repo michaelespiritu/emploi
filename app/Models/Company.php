@@ -19,6 +19,7 @@ class Company extends Model
         'company_address',
         'company_logo',
         'owner_id',
+        'token'
     ];
 
 
