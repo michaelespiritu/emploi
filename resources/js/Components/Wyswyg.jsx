@@ -7,19 +7,16 @@ export default function Wyswyg({ initialValue, onChange, ...props }) {
     const [editorValue, setEditorValue] = useState(initialValue || '');
 
     useEffect(() => {
-        // Update the editorValue when the initialValue prop changes
         setEditorValue(initialValue || '');
     }, [initialValue]);
 
     const handleChange = (content) => {
-        // Check if the content is just the default empty paragraph
-        console.log(content)
         if (content === '<p><br></p>') {
-            setEditorValue(''); // Set editorValue to empty
-            onChange(''); // Call onChange with an empty string
+            setEditorValue('');
+            onChange('');
         } else {
             setEditorValue(content);
-            onChange(content); // Call the onChange prop with the new content
+            onChange(content);
         }
     };
 

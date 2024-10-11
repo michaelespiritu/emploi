@@ -34,26 +34,42 @@ class JobListingsController extends Controller
     public function create(JobListingRequest $request)
     {
         $userCompany = auth()->user()->userCompany;
-        $job = $this->createJobListing($request, $userCompany);
-        $this->decrementToken($userCompany);
 
-        return redirect()->route('job.show', ['jobListing' => $job])->with('status', 'Job has been Created');
+        $job = $this->createJobListing($request, $userCompany);
+        $currentToken = $userCompany->token;
+        $this->handleTokenDecrement($userCompany);
+
+        return $this->handleRedirect($job, $currentToken);
     }
 
     private function createJobListing(JobListingRequest $request, $userCompany)
     {
-        $request['status'] = 'reviewing';
-        $request['expires_at'] = Carbon::now()->addDays(30);
+        $status = $userCompany->token > 0 ? 'reviewing' : 'draft';
+        $expiresAt = Carbon::now()->addDays(30);
 
-        return $userCompany->jobListings()->create($request->all());
+        return $userCompany->jobListings()->create(array_merge($request->all(), [
+            'status' => $status,
+            'expires_at' => $expiresAt,
+        ]));
     }
 
-    private function decrementToken($userCompany)
+    private function handleTokenDecrement($userCompany)
     {
-        if ($userCompany) {
-            $newToken = $userCompany->token - 1;
-            $userCompany->update(['token' => $newToken]);
+        if ($userCompany && $userCompany->token > 0) {
+            $userCompany->decrement('token');
         }
+    }
+
+    private function handleRedirect($job, $currentToken)
+    {
+        if ($currentToken <= 0) {
+            return Inertia::render('Company/BuyCredit', [
+                'status' => 'You have used all your tokens. Please purchase more to create additional job listings.',
+            ]);
+        }
+
+        return redirect()->route('job.show', ['jobListing' => $job])
+            ->with('status', 'Job has been created');
     }
 
     /**
