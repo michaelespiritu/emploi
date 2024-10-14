@@ -39,14 +39,18 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->prefix('company')->group(function () {
     Route::get('/', [CompanyController::class, 'index'])->name('company.index');
+    Route::get('/buy-token', [CompanyController::class, 'getBuyToken'])->name('company.get.buy.token');
+    Route::post('/buy-token', [CompanyController::class, 'postBuyToken'])->name('company.post.buy.token');
 });
 
 Route::middleware('auth')->prefix('company/jobs')->group(function () {
     Route::get('/', [JobListingsController::class, 'index'])->name('job.index');
-    Route::post('/create', [JobListingsController::class, 'create'])->name('job.create');
+    Route::get('/create', [JobListingsController::class, 'create'])->name('job.create');
+    Route::post('/create', [JobListingsController::class, 'store'])->name('job.store');
     Route::get('/{jobListing}', [JobListingsController::class, 'show'])->name('job.show');
     Route::get('/edit/{jobListing}', [JobListingsController::class, 'edit'])->name('job.edit');
     Route::patch('/edit/{jobListing}', [JobListingsController::class, 'update'])->name('job.update');
+    Route::delete('/{jobListing}', [JobListingsController::class, 'destroy'])->name('job.destroy');
     Route::get('/categories', [JobListingsController::class, 'categories'])->name('job.categories');
 });
 

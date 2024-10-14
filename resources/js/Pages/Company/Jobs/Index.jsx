@@ -17,9 +17,17 @@ export default function Index({ auth, status, all_jobs, categories }) {
       <Head title="All Jobs" />
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-          <PrimaryButton className="mb-5" onClick={ () => setShowForm(!showForm) }>
-            { (showForm) ? 'Create Job' : 'Cancel' }
-          </PrimaryButton>
+
+          <div className='flex justify-between items-center'>
+            <p className="mb-5 text-xl" >{ status }</p>
+
+            <PrimaryButton className="mb-5" onClick={ () => setShowForm(!showForm) }>
+              { (showForm) ? 'Create Job' : 'Cancel' }
+            </PrimaryButton>
+          </div>
+
+
+
           { all_jobs && all_jobs.length > 0 && showForm ?
             all_jobs.map((job) => (
               <Link key={ job.id } href={ route('job.show', { jobListing: job }) }>
@@ -30,7 +38,7 @@ export default function Index({ auth, status, all_jobs, categories }) {
             ))
             : <Form
               categories={ categories.data }
-              route={ route('job.create') }
+              route={ route('job.store') }
               type={ 'post' }
             />
           }

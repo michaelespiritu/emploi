@@ -28,10 +28,19 @@ class JobListingsController extends Controller
         ]);
     }
 
+
+    public function create(): Response
+    {
+        return Inertia::render('Company/Jobs/Create', [
+            'status' => session('status'),
+            'categories' => JobCategoryResource::collection(JobCategories::all()),
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
-    public function create(JobListingRequest $request)
+    public function store(JobListingRequest $request)
     {
         $userCompany = auth()->user()->userCompany;
 
@@ -64,21 +73,15 @@ class JobListingsController extends Controller
     {
         if ($currentToken <= 0) {
             return Inertia::render('Company/BuyCredit', [
-                'status' => 'You have used all your tokens. Please purchase more to create additional job listings.',
+                'status' => "Your Job Listing ($job->title) has been saved as Draft. Please purchase Job Listing Token to be submitted for review.",
+                'job' => $job
             ]);
         }
 
         return redirect()->route('job.show', ['jobListing' => $job])
-            ->with('status', 'Job has been created');
+            ->with('status', 'Job has been submitted for Review.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -124,8 +127,10 @@ class JobListingsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(jobListing $jobListing)
     {
-        //
+        $jobListing->delete();
+
+        return redirect()->route('job.index')->with('status', "Job Listing $jobListing->title has been deleted.");
     }
 }

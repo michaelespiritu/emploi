@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobListing;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
@@ -18,6 +19,31 @@ class CompanyController extends Controller
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
+    }
+
+
+    public function getBuyToken(Request $request): Response
+    {
+        return Inertia::render('Company/BuyCredit', [
+            'status' => "Tokens are used to create Job Listing.",
+        ]);
+    }
+
+
+    public function postBuyToken(Request $request)
+    {
+        $currentToken = auth()->user()->userCompany->token;
+
+        auth()->user()->userCompany->update(['token' => $currentToken + $request->token]);
+
+        if ($request->job) {
+            JobListing::find($request->job)->update(['status' => 'reviewing']);
+
+            return redirect()->route('job.show', ['jobListing' => $request->job])
+                ->with('status', 'Job has been submitted for Review.');
+        }
+
+        return redirect()->route('job.index');
     }
 
     /**
