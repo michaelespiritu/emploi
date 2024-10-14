@@ -2,12 +2,12 @@ import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import JobDetails from './JobDetails';
 import { Link } from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
-import SecondaryButton from '@/Components/SecondaryButton';
 import Delete from './Delete';
+import DismissibleInfo from '@/Components/DismissibleInfo';
 
 export default function Show({ auth, job, status }) {
   return (
@@ -36,7 +36,7 @@ export default function Show({ auth, job, status }) {
 
       <div className="py-12">
         <div className="max-w-5xl mx-auto sm:px-6 lg:px-8">
-          { status }
+          <DismissibleInfo className="mb-5 bg-green-700 text-center">{ status }</DismissibleInfo>
           <JobDetails job={ job } />
         </div>
       </div>

@@ -1,0 +1,8 @@
+.dismissible-info {
+  transition: opacity 0.5s ease; /* Fade-out transition */
+  opacity: 1; /* Initial opacity */
+}
+
+.fade-out {
+  opacity: 0; /* Fade-out effect */
+}

@@ -25,6 +25,7 @@ class JobListingsController extends Controller
             'status' => session('status'),
             'categories' => JobCategoryResource::collection(JobCategories::all()),
             'all_jobs' => auth()->check() && auth()->user()->userCompany ? JobListingResource::collection(auth()->user()->userCompany->jobListings)->toArray(request()) : [],
+            'token' => auth()->user()->userCompany->token
         ]);
     }
 

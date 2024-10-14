@@ -59,6 +59,7 @@ export default function Authenticated({ user, header, children }) {
 
                                     <Dropdown.Content>
                                         <Dropdown.Link href={ route('profile.edit') }>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={ route('company.get.buy.token') }>Buy Job Listing Token</Dropdown.Link>
                                         <Dropdown.Link href={ route('logout') } method="post" as="button">
                                             Log Out
                                         </Dropdown.Link>

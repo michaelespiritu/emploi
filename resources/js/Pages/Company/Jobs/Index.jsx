@@ -5,9 +5,18 @@ import JobDetails from './JobDetails';
 import Form from './Form';
 import { useState } from 'react';
 import PrimaryButton from '@/Components/PrimaryButton';
+import DismissibleInfo from '@/Components/DismissibleInfo';
 
-export default function Index({ auth, status, all_jobs, categories }) {
+export default function Index({ auth, status, all_jobs, categories, token }) {
   const [showForm, setShowForm] = useState((all_jobs && all_jobs.length > 0) ? true : false)
+
+  const tokenText = () => {
+    return {
+      className: (token > 1) ? '' : 'text-red-500',
+      text: (token > 1) ? 's' : ''
+    };
+  };
+
 
   return (
     <AuthenticatedLayout
@@ -19,7 +28,9 @@ export default function Index({ auth, status, all_jobs, categories }) {
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
           <div className='flex justify-between items-center'>
-            <p className="mb-5 text-xl" >{ status }</p>
+            <p className={ `mb-5 text-xl ${tokenText().className}` } >
+              { (showForm) ? <DismissibleInfo>{ status }</DismissibleInfo> : `You have ${token} token${tokenText().text} available.` }
+            </p>
 
             <PrimaryButton className="mb-5" onClick={ () => setShowForm(!showForm) }>
               { (showForm) ? 'Create Job' : 'Cancel' }
