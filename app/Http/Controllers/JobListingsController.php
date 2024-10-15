@@ -6,10 +6,7 @@ use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\JobListing;
-use Illuminate\Http\Request;
 use App\Models\JobCategories;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Requests\JobListingRequest;
 use App\Http\Resources\JobListingResource;
 use App\Http\Resources\JobCategoryResource;
@@ -93,6 +90,7 @@ class JobListingsController extends Controller
         return Inertia::render('Company/Jobs/Show', [
             'job' => JobListingResource::make($jobListing)->toArray(request()),
             'status' => session('status'),
+            'type' => session('type'),
         ]);
     }
 

@@ -1,15 +1,15 @@
-import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import JobDetails from './JobDetails';
 import { Link } from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
-import Delete from './Delete';
 import DismissibleInfo from '@/Components/DismissibleInfo';
+import JobDetails from '../Company/Jobs/JobDetails';
+import ApproveJobButton from './ApproveJobButton';
+import DeclineJobButton from './DeclineJobButton';
 
-export default function Show({ auth, job, status, type = 'bg-green-500' }) {
+export default function ViewJob({ auth, job, status, type }) {
   return (
     <AuthenticatedLayout
       user={ auth.user }
@@ -20,14 +20,22 @@ export default function Show({ auth, job, status, type = 'bg-green-500' }) {
             <h2 className="font-semibold text-xl text-gray-800 leading-tight">{ job.title }</h2>
           </div>
           <div className='flex gap-3'>
+            { job.status === 'reviewing' &&
+              <ApproveJobButton
+                job={ job }
+              />
+            }
             <Link
               href={ route('job.edit', { id: job.id }) }
             >
               <PrimaryButton>Edit <FontAwesomeIcon icon={ faPenToSquare } className='ml-1' /></PrimaryButton>
             </Link>
-            <Delete
-              job={ job }
-            />
+
+            { job.status === 'reviewing' &&
+              <DeclineJobButton
+                job={ job }
+              />
+            }
           </div>
         </div>
       </div> }

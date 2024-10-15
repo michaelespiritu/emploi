@@ -16,6 +16,10 @@ class JobListing extends Model
 
     protected $appends = ['category_name'];
 
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id');

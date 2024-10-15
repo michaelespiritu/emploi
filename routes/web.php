@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -30,6 +31,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->prefix('admin')->group(function () {
+    Route::get('/job-boards', [AdminController::class, 'jobBoards'])->name('admin.job.board');
+    Route::get('/{jobListing}', [AdminController::class, 'viewJobListing'])->name('admin.view.job');
+    Route::post('/approve/{jobListing}', [AdminController::class, 'approveJobListing'])->name('admin.approve.job');
+    Route::post('/decline/{jobListing}', [AdminController::class, 'declineJobListing'])->name('admin.decline.job');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -36,7 +36,7 @@ class JobListingResource extends JsonResource
             'contract_type' => $this->contract_type,
             'contract_length' => $this->contract_length,
             'status' => $this->status,
-            'expires_at' => $this->expires_at,
+            'expires_at' => $this->expires_at->format('F d, Y h:i:sA'),
             'created_at' => $this->created_at,
         ];
     }

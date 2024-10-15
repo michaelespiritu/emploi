@@ -19,18 +19,18 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         // JobCategories::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Admin: Emploi',
-        //     'username' => 'admin_emploi',
-        //     'email' => 'admin@emploi.com',
-        // ]);
-        $jobCategories = collect(['Agriculture', 'Customer Service', 'Human Resources', 'Technology', 'Maintenance']);
+        User::factory()->create([
+            'name' => 'Admin: Emploi',
+            'username' => 'admin_emploi',
+            'email' => 'admin@emploi.com',
+        ]);
+        // $jobCategories = collect(['Agriculture', 'Customer Service', 'Human Resources', 'Technology', 'Maintenance']);
 
-        foreach ($jobCategories as $jobCategory) {
-            JobCategories::factory()->create([
-                'name' => $jobCategory,
-                'slug' => Str::slug($jobCategory),
-            ]);
-        }
+        // foreach ($jobCategories as $jobCategory) {
+        //     JobCategories::factory()->create([
+        //         'name' => $jobCategory,
+        //         'slug' => Str::slug($jobCategory),
+        //     ]);
+        // }
     }
 }
