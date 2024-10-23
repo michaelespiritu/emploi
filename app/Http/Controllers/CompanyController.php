@@ -22,7 +22,7 @@ class CompanyController extends Controller
     }
 
 
-    public function getBuyToken(Request $request): Response
+    public function getBuyToken(): Response
     {
         return Inertia::render('Company/BuyCredit', [
             'status' => "Tokens are used to create Job Listing.",
@@ -32,17 +32,34 @@ class CompanyController extends Controller
 
     public function postBuyToken(Request $request)
     {
+        $request->validate([
+            'token' => 'required|numeric|min:5'
+        ]);
+
         $currentToken = auth()->user()->userCompany->token;
+        $newToken = $currentToken + $request->token;
 
-        auth()->user()->userCompany->update(['token' => $currentToken + $request->token]);
+        $return  = $this->postBuyTokenRedirect();
 
-        if ($request->job) {
+        if ($request->filled('job')) {
             JobListing::find($request->job)->update(['status' => 'reviewing']);
-
-            return redirect()->route('job.show', ['jobListing' => $request->job])
-                ->with('status', 'Job has been submitted for Review.');
+            $newToken--;
+            $return  = $this->postBuyTokenRedirect($request->job);
         }
 
+        auth()->user()->userCompany->update(['token' => $newToken]);
+
+        return $return;
+    }
+
+
+    private function postBuyTokenRedirect($job = null)
+    {
+        if ($job) {
+            return redirect()->route('job.show', ['jobListing' => $job])
+                ->with('status', 'Job has been submitted for Review.')
+                ->with('type', 'bg-green-500');
+        }
         return redirect()->route('job.index');
     }
 

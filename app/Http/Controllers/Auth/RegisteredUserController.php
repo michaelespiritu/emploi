@@ -50,6 +50,8 @@ class RegisteredUserController extends Controller
             'company_address' => $request->company_address
         ]);
 
+        $user->assignRole('company');
+
         event(new Registered($user));
 
         Auth::login($user);

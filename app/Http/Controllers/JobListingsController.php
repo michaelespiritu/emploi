@@ -77,7 +77,8 @@ class JobListingsController extends Controller
         }
 
         return redirect()->route('job.show', ['jobListing' => $job])
-            ->with('status', 'Job has been submitted for Review.');
+            ->with('status', 'Job has been submitted for Review.')
+            ->with('type', 'bg-green-500');
     }
 
 

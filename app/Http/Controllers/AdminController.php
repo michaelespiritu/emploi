@@ -39,7 +39,7 @@ class AdminController extends Controller
             'expires_at' => Carbon::now()->addDays(30)
         ]);
 
-        return redirect()->route('job.show', ['jobListing' => $jobListing])
+        return redirect()->route('admin.view.job', ['jobListing' => $jobListing])
             ->with('status', 'Job Listing is now Live.')
             ->with('type', 'bg-green-500');
     }
@@ -57,7 +57,7 @@ class AdminController extends Controller
 
         $jobListing->owner->increment('token');
 
-        return redirect()->route('job.show', ['jobListing' => $jobListing])
+        return redirect()->route('admin.view.job', ['jobListing' => $jobListing])
             ->with('status', 'Job Listing has been Declined.')
             ->with('type', 'bg-red-500');
     }
