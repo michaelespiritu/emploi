@@ -37,7 +37,8 @@ class JobListingResource extends JsonResource
             'contract_length' => $this->contract_length,
             'status' => $this->status,
             'expires_at' => $this->expires_at->format('F d, Y h:i:sA'),
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('F d, Y h:i:sA'),
+            'created_at_human' => $this->created_at->diffForHumans()
         ];
     }
 }

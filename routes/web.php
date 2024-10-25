@@ -52,7 +52,7 @@ Route::middleware(['auth', 'role:company'])->prefix('company')->group(function (
 
     // Job listings routes
     Route::prefix('jobs')->group(function () {
-        Route::get('/', [JobListingsController::class, 'index'])->name('job.index');
+        Route::get('/', [JobListingsController::class, 'myJobListings'])->name('job.index');
         Route::get('/create', [JobListingsController::class, 'create'])->name('job.create');
         Route::post('/create', [JobListingsController::class, 'store'])->name('job.store');
         Route::get('/{jobListing}', [JobListingsController::class, 'show'])->name('job.show');
@@ -63,5 +63,6 @@ Route::middleware(['auth', 'role:company'])->prefix('company')->group(function (
     });
 });
 
+Route::get('/jobs', [JobListingsController::class, 'publicJobListings'])->name('job.public.listing');
 
 require __DIR__ . '/auth.php';

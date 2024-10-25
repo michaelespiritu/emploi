@@ -30,7 +30,9 @@ export default function Register() {
     };
 
     return (
-        <GuestLayout>
+        <GuestLayout
+            classStyle="w-full flex justify-center items-center h-screen"
+        >
             <Head title="Register" />
 
             <form onSubmit={ submit }>

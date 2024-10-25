@@ -16,15 +16,34 @@ class JobListingsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function publicJobListings(): Response
     {
+        $allJobs = JobListingResource::collection(JobListing::where('status', 'live')->get())->toArray(request());
+        return Inertia::render('Public/JobListings', [
+            'status' => session('status'),
+            'categories' => JobCategoryResource::collection(JobCategories::all()),
+            'all_jobs' => $allJobs
+        ]);
+    }
+
+    public function myJobListings(): Response
+    {
+        $user = auth()->user();
+        $userCompany = $user->userCompany;
+
+        $allJobs = [];
+        if ($userCompany) {
+            $allJobs = JobListingResource::collection($userCompany->jobListings)->toArray(request());
+        }
+
         return Inertia::render('Company/Jobs/Index', [
             'status' => session('status'),
             'categories' => JobCategoryResource::collection(JobCategories::all()),
-            'all_jobs' => auth()->check() && auth()->user()->userCompany ? JobListingResource::collection(auth()->user()->userCompany->jobListings)->toArray(request()) : [],
-            'token' => auth()->user()->userCompany->token
+            'all_jobs' => $allJobs,
+            'token' => $userCompany->token ?? null
         ]);
     }
+
 
 
     public function create(): Response
