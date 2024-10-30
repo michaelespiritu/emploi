@@ -3,6 +3,8 @@ import { Head, Link } from '@inertiajs/react';
 import JobListingBody from './JobListingBody';
 import { useRef, useState } from 'react';
 import JobDetails from './JobDetails';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function JobListings({ status, categories, all_jobs }) {
   const [selectedJob, setSelectedJob] = useState();
@@ -12,9 +14,10 @@ export default function JobListings({ status, categories, all_jobs }) {
   const handleSelectedJob = (job) => {
     setSelectedJob(job)
   }
+
   return (
     <GuestLayout
-      classStyle="w-full flex justify-center items-center h-screen"
+      classStyle="w-full flex justify-center items-center"
     >
       <Head title="Job Listings" />
 
@@ -24,18 +27,35 @@ export default function JobListings({ status, categories, all_jobs }) {
             all_jobs.map((job) => (
               <div
                 key={ job.id }
-                className="bg-white shadow sm:rounded-lg mb-5"
+                className={ ` bg-white shadow sm:rounded-lg mb-5 ${(selectedJob == job) ? 'border-blue-900 border-4' : ''}` }
                 onClick={ () => handleSelectedJob(job) }
               >
-                <JobDetails job={ job } trim={ true } />
+                <JobDetails
+                  job={ job }
+                  trim={ true }
+                />
               </div>
             ))
             :
             <p>No Job Listing yet..</p>
           }
         </div>
-        <div className="flex-1 relative"   >
-          { selectedJob && <JobListingBody job={ selectedJob } /> }
+        <div className="flex-1 relative">
+          { selectedJob ?
+            <JobListingBody ref={ jobRef } job={ selectedJob } />
+            :
+            <div className='bg-white h-full shadow-sm sm:rounded-lg absolute w-full p-16'>
+              <div className='flex items-center gap-5'>
+                <div>
+                  <FontAwesomeIcon icon={ faAnglesLeft } />
+                </div>
+                <div>
+                  <p className='text-4xl'>Select a job</p>
+                  <p className='font-thin text-gray-400'>Display details here</p>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </div>
 

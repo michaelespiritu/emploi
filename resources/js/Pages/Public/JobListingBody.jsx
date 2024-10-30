@@ -1,17 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faLocationDot, faMoneyBill1Wave } from '@fortawesome/free-solid-svg-icons';
 import DOMPurify from 'dompurify';
+import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import GreenButton from '@/Components/GreenButton';
-import { useEffect, useRef } from 'react';
+import { useEffect, forwardRef } from 'react';
 
-export default function JobListingBody({ job }) {
+const JobListingBody = forwardRef(({ job }, ref) => {
   const safeHTML = DOMPurify.sanitize(job.description);
-  const jobRef = useRef(null);
 
   const handleScrollToTop = () => {
-    if (jobRef.current) {
-      jobRef.current.scrollTop = 0;
+    if (ref.current) {
+      ref.current.scrollTop = 0;
     }
   };
 
@@ -21,7 +21,7 @@ export default function JobListingBody({ job }) {
   }, [job]);
 
   return (
-    <div className="bg-white overflow-y-scroll h-full shadow-sm sm:rounded-lg p-5 absolute w-full" ref={ jobRef }>
+    <div className="bg-white overflow-y-scroll h-full shadow-sm sm:rounded-lg p-5 absolute w-full" ref={ ref }>
       <div className="mb-4">
         <h1 className="text-gray-900 font-bold text-5xl pb-1">{ job.title }</h1>
         <div className="flex gap-3">
@@ -56,6 +56,6 @@ export default function JobListingBody({ job }) {
       </div>
     </div>
   );
-};
+});
 
-
+export default JobListingBody;
