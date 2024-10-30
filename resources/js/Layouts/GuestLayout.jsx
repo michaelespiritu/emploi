@@ -6,7 +6,7 @@ export default function Guest({ children, classStyle }) {
         <div className="min-h-screen  pt-6 sm:pt-0 bg-gray-100">
 
 
-            <div class={ classStyle }>
+            <div className={ classStyle }>
                 { children }
             </div>
         </div>

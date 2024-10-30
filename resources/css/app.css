@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Custom styles for the ReactQuill editor */
 .ql-container {
   background-color: white; /* Set background to white */
