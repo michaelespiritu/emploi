@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ApplicantController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -64,5 +65,6 @@ Route::middleware(['auth', 'role:company'])->prefix('company')->group(function (
 });
 
 Route::get('/jobs', [JobListingsController::class, 'publicJobListings'])->name('job.public.listing');
+Route::post('/jobs/apply/{jobListing}', [ApplicantController::class, 'apply'])->name('job.apply');
 
 require __DIR__ . '/auth.php';
