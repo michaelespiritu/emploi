@@ -1,3 +1,4 @@
+import DismissibleInfo from "@/Components/DismissibleInfo";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -5,9 +6,9 @@ import Textarea from "@/Components/Textarea";
 import TextInput from "@/Components/TextInput";
 import Wyswyg from "@/Components/Wyswyg";
 import { useForm } from "@inertiajs/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export default function ApplyForm({ job }) {
+export default function ApplyForm({ job, status, type }) {
 
   const { data, setData, post, reset, processing, errors } = useForm({
     first_name: '',
@@ -16,6 +17,14 @@ export default function ApplyForm({ job }) {
     resume: '',
     cover_letter: '',
   });
+
+  const [currentStatus, setCurrentStatus] = useState(status);
+  const [currentType, setCurrentType] = useState(type);
+
+  useEffect(() => {
+    setCurrentStatus(status);
+    setCurrentType(type);
+  }, [status, type]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -33,6 +42,7 @@ export default function ApplyForm({ job }) {
 
   return (
     <form onSubmit={ submit }>
+      <DismissibleInfo className={ `mb-5 text-center m-auto my-5 ${currentType}` }>{ currentStatus }</DismissibleInfo>
       <div className="flex gap-4">
         <div className="flex-1">
           <InputLabel htmlFor="first_name" value="First Name" />

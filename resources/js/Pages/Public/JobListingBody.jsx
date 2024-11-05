@@ -7,7 +7,7 @@ import GreenButton from '@/Components/GreenButton';
 import { useEffect, forwardRef } from 'react';
 import ApplyForm from './ApplyForm';
 
-const JobListingBody = forwardRef(({ job }, ref) => {
+const JobListingBody = forwardRef(({ job, status, type }, ref) => {
   const safeHTML = DOMPurify.sanitize(job.description);
 
   const handleScrollToTop = () => {
@@ -26,7 +26,7 @@ const JobListingBody = forwardRef(({ job }, ref) => {
   }
 
   return (
-    <div className="bg-white overflow-y-scroll  shadow-sm sm:rounded-lg p-5 sticky top-2 w-full" ref={ ref }>
+    <div className="bg-white overflow-y-auto overflow-hidden h-screen shadow-sm sm:rounded-lg p-5 sticky top-2 w-full" ref={ ref }>
       <div className="my-4">
         <h1 className="text-gray-900 font-bold text-5xl pb-1">{ job.title }</h1>
         <div className="flex gap-3">
@@ -64,7 +64,7 @@ const JobListingBody = forwardRef(({ job }, ref) => {
         <hr className="border-t border-dashed border-grey-500 my-6" />
 
 
-        <ApplyForm job={ job } />
+        <ApplyForm job={ job } status={ status } type={ type } />
       </div>
     </div>
   );
